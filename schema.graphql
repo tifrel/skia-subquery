@@ -1,0 +1,31 @@
+type Instrument @entity {
+  id: ID!
+  description: String!
+  baseToken: String! # this is the token on which the apy will be calculated
+  empiricApys: [InstrumentApy!]! @derivedFrom(field: "instrument")
+}
+
+type InstrumentApy @entity {
+  id: ID!
+  instrument: Instrument!
+  start: Date!
+  stop: Date!
+  yield: Bigint! # percentage of asset growth in the specified period
+  apy: Bigint! # percentaeg of asset growth, calculated per year
+}
+
+type LiquidityPool @entity {
+  id: ID!
+  tokenA: String!
+  tokenB: String!
+  empiricApys: [LpApy!]! @derivedFrom(field: "lp")
+}
+
+type LpApy @entity {
+  id: ID!
+  lp: LiquidityPool!
+  start: Date!
+  stop: Date!
+  yield: Bigint!
+  apy: Bigint!
+}
